@@ -10,8 +10,8 @@ def move_file(command: str) -> None:
         return None
 
     path_to = ""
-    for d in list_destination[:-1]:
-        path_to += d + "/"
+    for directory in list_destination[:-1]:
+        path_to += directory + "/"
         if not os.path.exists(path_to):
             os.mkdir(path_to)
 
