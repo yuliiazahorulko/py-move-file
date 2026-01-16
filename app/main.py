@@ -4,28 +4,20 @@ import os
 def move_file(command: str) -> None:
     try:
         command_to_run, source, destination = command.split(" ")
-        if "." not in destination:
+        if source == destination \
+                or command_to_run != "mv":
             raise ValueError
     except ValueError:
         return None
 
-    list_destination = destination.split("/")
+    list_destination = os.path.dirname(destination)
 
-    if source == destination \
-            or destination[-1] == "/" \
-            or destination[-1] == "\\" \
-            or command_to_run != "mv":
-        return None
-
-    if len(list_destination) == 1:
+    if list_destination == "":
         os.rename(source, destination)
         return None
 
-    path_to = ""
-    for directory in list_destination[:-1]:
-        path_to = os.path.join(path_to, directory)
-        if not os.path.exists(path_to):
-            os.mkdir(path_to)
+    if not os.path.exists(list_destination):
+        os.mkdir(list_destination)
 
     with open(source, "r") as source_file, \
             open(destination, "w") as destination_file:
